@@ -1,0 +1,4 @@
+im_paths,gt_paths,mask_paths
+data/TRY/images/201.jpg,data/TRY/manual/201.jpg,data/TRY/masks/201.jpg
+data/TRY/images/transformed_1_203.jpg,data/TRY/manual/transformed_1_203.jpg,data/TRY/masks/transformed_1_203.jpg
+data/TRY/images/transformed_2_203.jpg,data/TRY/manual/transformed_2_203.jpg,data/TRY/masks/transformed_2_203.jpg
