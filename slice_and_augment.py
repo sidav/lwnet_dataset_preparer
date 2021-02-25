@@ -10,8 +10,8 @@ from PIL import Image
 from pathlib import Path
 
 parent_result_folder = "result/"
-source_dir = 'new_test_x'
-handmade_dir = 'new_test_y'
+source_dir = 'raw' # 'new_test_x'
+handmade_dir = 'marked' # 'new_test_y'
 TRANSFORMATIONS_PER_IMAGE = 2
 H, W = 2048, 430
 
@@ -20,8 +20,8 @@ def transform_and_save_both(curr_img, folder, transform, randomState):
     from pathlib import Path
     Path(parent_result_folder + folder).mkdir(parents=True, exist_ok=True)
 
-    # print(np.shape(curr_img))
-    curr_img = cv2.cvtColor(curr_img, cv2.COLOR_BGR2GRAY)
+    if len(np.shape(curr_img)) != 2:
+        curr_img = cv2.cvtColor(curr_img, cv2.COLOR_BGR2GRAY)
     curr_img = cv2.cvtColor(curr_img, cv2.COLOR_GRAY2BGR)
     # print(np.shape(curr_img))
     # curr_img = np.expand_dims(curr_img, axis=-1)
@@ -45,6 +45,7 @@ def do_things_with_images(image, manual):
     global csv
     image = cv2.resize(image, (H, W))
     manual = cv2.resize(manual, (H, W))
+    manual = cv2.bitwise_not(manual)
     for _ in range(TRANSFORMATIONS_PER_IMAGE):
         random_state_image = np.random.RandomState(None)
         random_state_manual = deepcopy(random_state_image)
