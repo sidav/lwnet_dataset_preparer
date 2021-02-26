@@ -32,8 +32,12 @@ def transform_and_save_both(curr_img, folder, transform, randomState):
     print("TEST RANDOM FOR THIS: ", randomState.random())
     if transform:
         curr_add_number = 0
-        transformed = elastic_transform(curr_img, curr_img.shape[1] * 0.2, curr_img.shape[1] * 0.008,
-                                        curr_img.shape[1] * 0.008, randomState)
+        # für große Bilder
+        # transformed = elastic_transform(curr_img, curr_img.shape[1] * 0.2, curr_img.shape[1] * 0.008,
+        #                                 curr_img.shape[1] * 0.008, randomState)
+        # für kleine Bilder
+        transformed = elastic_transform(curr_img, curr_img.shape[1] * 0.07, curr_img.shape[1] * 0.2,
+                                        curr_img.shape[1] * 0.2, randomState)
 
         fname = ""
         while curr_add_number == 0 or os.path.isfile(fname):
