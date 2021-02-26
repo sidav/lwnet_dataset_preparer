@@ -13,15 +13,16 @@ from pathlib import Path
 toslice_folder = "toslice/"
 source_dir = 'toslice/raw' # 'new_test_x'
 handmade_dir = 'toslice/marked' # 'new_test_y'
-SLICES_PER_IMAGE = 15
-SLICE_SIZE = 128
+SLICES_PER_IMAGE = 10
+OFFSET_FROM_BOTTOM = 80  # dies ist für die Ausnahme des Maßtab
+SLICE_SIZE = 256
 
 
 def slice_and_save(curr_img, folder, img_name, randomState):
     Path(folder).mkdir(parents=True, exist_ok=True)
     for num in range(SLICES_PER_IMAGE):
         fromx = randomState.randint(0, len(curr_img)-SLICE_SIZE)
-        fromy = randomState.randint(0, len(curr_img[0]) - SLICE_SIZE)
+        fromy = randomState.randint(0, len(curr_img[0]) - SLICE_SIZE - OFFSET_FROM_BOTTOM)
         resulting_image = np.empty((SLICE_SIZE, SLICE_SIZE, curr_img.shape[2]))
         for x in range(fromx, fromx+SLICE_SIZE):
             for y in range(fromy, fromy+SLICE_SIZE):

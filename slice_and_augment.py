@@ -13,7 +13,9 @@ parent_result_folder = "result/"
 source_dir = 'raw' # 'new_test_x'
 handmade_dir = 'marked' # 'new_test_y'
 TRANSFORMATIONS_PER_IMAGE = 2
-H, W = 2048, 430
+
+USE_INITIAL_SIZE = True
+H, W = 2048, 430  # hat keinen Effekt wenn USE_INITIAL_SIZE "True" ist.
 
 
 def transform_and_save_both(curr_img, folder, transform, randomState):
@@ -43,6 +45,8 @@ def transform_and_save_both(curr_img, folder, transform, randomState):
 
 def do_things_with_images(image, manual):
     global csv
+    if USE_INITIAL_SIZE:
+        H, W = image.shape[0], image.shape[1]
     image = cv2.resize(image, (H, W))
     manual = cv2.resize(manual, (H, W))
     manual = cv2.bitwise_not(manual)
