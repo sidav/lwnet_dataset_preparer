@@ -13,33 +13,36 @@ from pathlib import Path
 toslice_folder = "toslice/"
 source_dir = 'toslice/raw' # 'new_test_x'
 handmade_dir = 'toslice/marked' # 'new_test_y'
-SLICES_PER_IMAGE = 4
+
+OVERLAP_IN_PIXELS = 0
 OFFSET_FROM_BOTTOM = 80  # dies ist für die Ausnahme des Maßtab
 SLICE_SIZE = 256
 
 
-def slice_and_save(curr_img, folder, img_name, randomState):
+def slice_and_save(curr_img, folder, img_name):
     Path(folder).mkdir(parents=True, exist_ok=True)
-    for num in range(SLICES_PER_IMAGE):
-        fromx = randomState.randint(0, len(curr_img)-SLICE_SIZE)
-        fromy = randomState.randint(0, len(curr_img[0]) - SLICE_SIZE - OFFSET_FROM_BOTTOM)
-        resulting_image = np.empty((SLICE_SIZE, SLICE_SIZE, curr_img.shape[2]))
-        for x in range(fromx, fromx+SLICE_SIZE):
-            for y in range(fromy, fromy+SLICE_SIZE):
-                # print(curr_img[x][y])
-                resulting_image[x-fromx][y-fromy] = curr_img[x][y]
-        print(folder+str(num)+img_name)
-        cv2.imwrite(folder+str(num)+img_name, resulting_image)
+    curxnum = 0
+    curynum = 0
+    for fromx in range(0, len(curr_img), SLICE_SIZE):
+        curynum = 0
+        for fromy in range(0, len(curr_img[0]), SLICE_SIZE):
+            resulting_image = np.empty((SLICE_SIZE, SLICE_SIZE, curr_img.shape[2]))
+            for x in range(fromx, fromx+SLICE_SIZE):
+                for y in range(fromy, fromy+SLICE_SIZE):
+                    # print(curr_img[x][y])
+                    resulting_image[x-fromx][y-fromy] = curr_img[x][y]
+            print(folder+"nonrand_x"+str(curxnum)+"_y"+str(curynum)+"_"+img_name)
+            cv2.imwrite(folder+"nonrand_x"+str(curxnum)+"_y"+str(curynum)+"_"+img_name, resulting_image)
+            curynum+=1
+        curxnum+=1
 
 
 def do_things_with_images(image, manual, filename):
     H, W = len(image), len(image[0])
     image = cv2.resize(image, (H, W))
     manual = cv2.resize(manual, (H, W))
-    random_state_image = np.random.RandomState(None)
-    random_state_manual = deepcopy(random_state_image)
-    slice_and_save(image, "sliced/raw/", filename, random_state_image)
-    slice_and_save(manual, "sliced/marked/", filename, random_state_manual)
+    slice_and_save(image, "sliced/raw/", filename)
+    slice_and_save(manual, "sliced/marked/", filename)
 
 
 try:
