@@ -82,10 +82,11 @@ for filename in os.listdir(preds_dir):
     name = re.search("(?<=\_)[^_]+(?=\.)", filename).group()
     if name not in parcel_packs.keys():
         parcel_packs[name] = ParcelPack(name)
-        print("Creating parcel pack" + name)
+        print("Creating parcel pack " + name)
     print("Adding parcel for pack" + name + " with x: " + x + "; y: " + y)
     prc = Parcel(x, y, test_img)
     parcel_packs[name].add(prc)
 
 for pack in parcel_packs.values():
+    print("GLUEING PARCEL PACK ", pack.name)
     pack.glue_together_and_save()
