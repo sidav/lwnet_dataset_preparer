@@ -22,14 +22,14 @@ SLICE_SIZE = 256
 def slice_and_save(curr_img, folder, img_name):
     Path(folder).mkdir(parents=True, exist_ok=True)
     curynum = 0
-    for fromx in range(0, len(curr_img), SLICE_SIZE):
+    for fromy in range(0, len(curr_img), SLICE_SIZE):
         curxnum = 0
-        for fromy in range(0, len(curr_img[0]), SLICE_SIZE):
+        for fromx in range(0, len(curr_img[0]), SLICE_SIZE):
             resulting_image = np.empty((SLICE_SIZE, SLICE_SIZE, curr_img.shape[2]))
-            for x in range(fromx, fromx+SLICE_SIZE):
-                for y in range(fromy, fromy+SLICE_SIZE):
+            for y in range(fromy, fromy+SLICE_SIZE):
+                for x in range(fromx, fromx+SLICE_SIZE):
                     # print(curr_img[x][y])
-                    resulting_image[x-fromx][y-fromy] = curr_img[x][y]
+                    resulting_image[y-fromy][x-fromx] = curr_img[y][x]
             parcel_name = folder+"nonrand_x"+str(curxnum)+"_y"+str(curynum)+"_"+img_name
             print(parcel_name)
             cv2.imwrite(parcel_name, resulting_image)
