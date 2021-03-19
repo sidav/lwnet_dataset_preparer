@@ -80,6 +80,8 @@ for filename in os.listdir(preds_dir):
     x = re.search("(?<=\_x).+(?=\_y)", filename).group()
     y = re.search("(?<=\_y).+(?=\_)", filename).group()
     name = re.search("(?<=\_)[^_]+(?=\.)", filename).group()
+    if "transformed" in filename:
+        name = "transformed_" + re.search("(?<=transformed\_)[^_]+(?=\_)", filename).group() + "_" + name
     if name not in parcel_packs.keys():
         parcel_packs[name] = ParcelPack(name)
         print("Creating parcel pack " + name)
